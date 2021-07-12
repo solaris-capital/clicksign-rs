@@ -1,0 +1,12 @@
+[package]
+name = "clicksign"
+version = "0.1.0"
+authors = ["SOLARIS GESTÃO DE RECURSOS"]
+edition = "2018"
+
+[dependencies]
+reqwest = { version = "0.11", features = ["json"] }
+tokio = { version = "1", features = ["full"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+error-chain = { version = "0.12.4", default-features = false }
