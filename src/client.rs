@@ -9,17 +9,15 @@ pub struct Client {
     client: reqwest::Client,
 }
 
-impl Default for Client {
-    fn default() -> Self {
+impl Client {
+    pub fn new(access_token: &str, host: Option<&str>) -> Self {
         Self {
-            host: String::from("https://sandbox.clicksign.com/api/v1/"),
-            access_token: String::from("2bdbdc19-c3bf-45db-b8a7-fddb43896c93"),
+            host: host.unwrap_or("https://app.clicksign.com/").to_string(),
+            access_token: access_token.to_string(),
             client: reqwest::Client::new(),
         }
     }
-}
 
-impl Client {
     fn build_url(&self, endpoint: &str) -> String {
         format!(
             "{}{}?access_token={}",
@@ -69,5 +67,38 @@ impl Client {
         let result: Value = serde_json::from_str(&self.handler(resp).await.unwrap())?;
 
         Ok(result)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_new_client_with_default_host() {
+        let client = Client::new("c9d91ece-9b3b-4def-abac-25b645cb083c", None);
+        assert_eq!("https://app.clicksign.com/", client.host);
+    }
+
+    #[test]
+    fn test_new_client_with_no_default_host() {
+        let client = Client::new(
+            "c9d91ece-9b3b-4def-abac-25b645cb083c",
+            Some("https://api.example.com"),
+        );
+        assert_eq!("https://api.example.com", client.host);
+    }
+
+    #[test]
+    fn test_build_url() {
+        let client = Client::new(
+            "c9d91ece-9b3b-4def-abac-25b645cb083c",
+            Some("https://api.example.com/"),
+        );
+        let url = client.build_url("my-path");
+        assert_eq!(
+            "https://api.example.com/my-path?access_token=c9d91ece-9b3b-4def-abac-25b645cb083c",
+            url
+        );
     }
 }
