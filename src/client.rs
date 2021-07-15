@@ -1,10 +1,7 @@
-use serde_json::json;
-use reqwest::StatusCode;
-use std::collections::HashMap;
-use reqwest::{Response, Url};
-use std::io;
 use error_chain::bail;
-
+use reqwest::Response;
+use reqwest::StatusCode;
+use serde_json::Value;
 
 pub struct Client {
     host: String,
@@ -23,9 +20,11 @@ impl Default for Client {
 }
 
 impl Client {
-
-    pub fn build_url(&self, endpoint: &str) -> String {
-        format!("{}{}?access_token={}", self.host, endpoint, self.access_token)
+    fn build_url(&self, endpoint: &str) -> String {
+        format!(
+            "{}{}?access_token={}",
+            self.host, endpoint, self.access_token
+        )
     }
 
     async fn handler(&self, response: Response) -> Result<String, Box<dyn std::error::Error>> {
@@ -52,5 +51,23 @@ impl Client {
         }
     }
 
-    // pub async create_document_by_model(&self, template_key)
+    pub async fn create_document_by_model(
+        &self,
+        template_id: &str,
+        template_body: &str,
+    ) -> Result<Value, Box<dyn std::error::Error>> {
+        let value: Value = serde_json::from_str(template_body)?;
+        let url = self.build_url(&format!("templates/{}/documents", template_id));
+        let resp = self
+            .client
+            .post(url)
+            .json(&value)
+            .header("Content-Type", "application/json")
+            .send()
+            .await?;
+
+        let result: Value = serde_json::from_str(&self.handler(resp).await.unwrap())?;
+
+        Ok(result)
+    }
 }
