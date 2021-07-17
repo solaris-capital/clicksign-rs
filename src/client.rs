@@ -1,7 +1,9 @@
+use crate::models::signers::Signer;
 use error_chain::bail;
 use reqwest::Response;
 use reqwest::StatusCode;
 use serde_json::Value;
+use std::collections::HashMap;
 
 pub struct Client {
     host: String,
@@ -65,6 +67,25 @@ impl Client {
             .await?;
 
         let result: Value = serde_json::from_str(&self.handler(resp).await.unwrap())?;
+
+        Ok(result)
+    }
+
+    pub async fn create_signer(
+        &self,
+        request_body: &str,
+    ) -> Result<HashMap<String, Signer>, Box<dyn std::error::Error>> {
+        let value: HashMap<String, Signer> = serde_json::from_str(request_body)?;
+        let url = self.build_url("signers");
+        let resp = self
+            .client
+            .post(url)
+            .json(&value)
+            .header("Content-Type", "application/json")
+            .send()
+            .await?;
+        let result: HashMap<String, Signer> =
+            serde_json::from_str(&self.handler(resp).await.unwrap())?;
 
         Ok(result)
     }
