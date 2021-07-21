@@ -1,4 +1,4 @@
-use crate::models::signers::Signer;
+use crate::models::signers::{Signer, SignerToDocument};
 use error_chain::bail;
 use reqwest::Response;
 use reqwest::StatusCode;
@@ -85,6 +85,25 @@ impl Client {
             .send()
             .await?;
         let result: HashMap<String, Signer> =
+            serde_json::from_str(&self.handler(resp).await.unwrap())?;
+
+        Ok(result)
+    }
+
+    pub async fn add_signer_to_document(
+        &self,
+        request_body: &str,
+    ) -> Result<HashMap<String, SignerToDocument>, Box<dyn std::error::Error>> {
+        let value: HashMap<String, SignerToDocument> = serde_json::from_str(request_body)?;
+        let url = self.build_url("lists");
+        let resp = self
+            .client
+            .post(url)
+            .json(&value)
+            .header("Content-Type", "application/json")
+            .send()
+            .await?;
+        let result: HashMap<String, SignerToDocument> =
             serde_json::from_str(&self.handler(resp).await.unwrap())?;
 
         Ok(result)

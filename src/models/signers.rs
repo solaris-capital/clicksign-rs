@@ -29,6 +29,5 @@ pub struct SignerToDocument {
     created_at: Option<String>,
     updated_at: Option<String>,
     url: Option<String>,
-    group: i32,
-    message: String
+    message: String,
 }
