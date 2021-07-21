@@ -18,3 +18,17 @@ pub struct Signer {
     created_at: Option<String>,
     updated_at: Option<String>,
 }
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct SignerToDocument {
+    key: Option<String>,
+    request_signature_key: Option<String>,
+    document_key: String,
+    signer_key: String,
+    sign_as: String,
+    created_at: Option<String>,
+    updated_at: Option<String>,
+    url: OPtion<String>,
+    group: i32,
+    message: String
+}
