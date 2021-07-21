@@ -29,7 +29,9 @@ impl Client {
 
     async fn handler(&self, response: Response) -> Result<String, Box<dyn std::error::Error>> {
         match response.status() {
-            StatusCode::CREATED | StatusCode::OK => Ok(response.text().await.unwrap()),
+            StatusCode::CREATED | StatusCode::OK | StatusCode::ACCEPTED => {
+                Ok(response.text().await.unwrap())
+            }
             StatusCode::INTERNAL_SERVER_ERROR => {
                 bail!("500 Internal Server Error")
             }
@@ -107,6 +109,22 @@ impl Client {
             serde_json::from_str(&self.handler(resp).await.unwrap())?;
 
         Ok(result)
+    }
+
+    pub async fn send_notification_to_signer(
+        &self,
+        request_body: &str,
+    ) -> Result<(), Box<dyn std::error::Error>> {
+        let value: HashMap<String, String> = serde_json::from_str(request_body)?;
+        let url = self.build_url("notifications");
+        let _ = self
+            .client
+            .post(url)
+            .json(&value)
+            .header("Content-Type", "application/json")
+            .send()
+            .await?;
+        Ok(())
     }
 }
 
