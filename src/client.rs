@@ -6,9 +6,9 @@ use serde_json::Value;
 use std::collections::HashMap;
 
 pub struct Client {
-    host: String,
-    access_token: String,
-    client: reqwest::Client,
+    pub host: String,
+    pub access_token: String,
+    pub client: reqwest::Client,
 }
 
 impl Client {
@@ -20,7 +20,7 @@ impl Client {
         }
     }
 
-    fn build_url(&self, endpoint: &str) -> String {
+    pub fn build_url(&self, endpoint: &str) -> String {
         format!(
             "{}{}?access_token={}",
             self.host, endpoint, self.access_token
@@ -125,38 +125,5 @@ impl Client {
             .send()
             .await?;
         Ok(())
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_new_client_with_default_host() {
-        let client = Client::new("c9d91ece-9b3b-4def-abac-25b645cb083c", None);
-        assert_eq!("https://app.clicksign.com/", client.host);
-    }
-
-    #[test]
-    fn test_new_client_with_no_default_host() {
-        let client = Client::new(
-            "c9d91ece-9b3b-4def-abac-25b645cb083c",
-            Some("https://api.example.com"),
-        );
-        assert_eq!("https://api.example.com", client.host);
-    }
-
-    #[test]
-    fn test_build_url() {
-        let client = Client::new(
-            "c9d91ece-9b3b-4def-abac-25b645cb083c",
-            Some("https://api.example.com/"),
-        );
-        let url = client.build_url("my-path");
-        assert_eq!(
-            "https://api.example.com/my-path?access_token=c9d91ece-9b3b-4def-abac-25b645cb083c",
-            url
-        );
     }
 }
