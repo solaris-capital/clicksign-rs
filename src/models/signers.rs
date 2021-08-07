@@ -1,5 +1,8 @@
 use serde::{Deserialize, Serialize};
 
+/// This struct defines a signer with the attributes described in the API documentation
+///
+/// detailed instructions at <https://developers.clicksign.com/docs/criar-signatario#atributos-para-a-cria%C3%A7%C3%A3o-de-signat%C3%A1rios>
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Signer {
     key: Option<String>,
@@ -19,6 +22,7 @@ pub struct Signer {
     updated_at: Option<String>,
 }
 
+/// This struct defines a request and response body for POST /api/v1/lists endpoint
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SignerToDocument {
     key: Option<String>,
