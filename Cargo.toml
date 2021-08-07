@@ -1,6 +1,6 @@
 [package]
 name = "clicksign"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["SOLARIS GESTÃO DE RECURSOS"]
 edition = "2018"
 homepage = "https://github.com/solaris-capital/clicksign-rs"
