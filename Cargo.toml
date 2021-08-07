@@ -3,6 +3,10 @@ name = "clicksign"
 version = "0.1.0"
 authors = ["SOLARIS GESTÃO DE RECURSOS"]
 edition = "2018"
+homepage = "https://github.com/solaris-capital/clicksign-rs"
+license-file = "LICENSE.md"
+description = "Unofficial Rust library for the Clicksign API"
+
 
 [dependencies]
 reqwest = { version = "0.11", features = ["json", "rustls"] }
