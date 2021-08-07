@@ -7,6 +7,36 @@
 //! fake. Any resemblance to real people is purely coincidental.
 //!
 //! ---
+//! # Features
+//! ### Documents
+//! - [ ] Create document by upload
+//! - [x] Create document by template
+//! - [ ] View document
+//! - [ ] View all documents
+//! - [ ] Configure document
+//! - [ ] Finish document
+//! - [ ] Cancel document
+//! - [ ] Duplicate document
+//! - [ ] Delete document
+//!
+//! ### Signers
+//! - [x] Create signer
+//! - [ ] View Signer
+//! - [x] Add signer to document
+//! - [ ] Remove signer from document
+//! - [ ] Delete signer
+//!
+//! ### Batches
+//! - [ ] Create batches
+//!
+//! ### Notifications
+//! - [x] Request signing by email
+//! - [ ] Request signing by Whatsapp
+//! - [ ] Request signing by SMS
+//!
+//! ### Sign documents via API
+//! - [ ] Sign documents via API
+//! 
 //! # Usage
 //! ## Instantiating a client
 //! ```rust
