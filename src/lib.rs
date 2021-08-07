@@ -1,5 +1,12 @@
 //! Unofficial Rust library for the [Clicksign API](https://developers.clicksign.com/)
 //! =======
+//! ---
+//! **Disclaimer**
+//!
+//! All person names and document numbers in the examples of this documentation are
+//! fake. Any resemblance to real people is purely coincidental.
+//!
+//! ---
 //! # Usage
 //! ## Instantiating a client
 //! ```rust
