@@ -273,10 +273,10 @@ impl Client {
     ///        "url": "https://www.example.com/abc"
     ///      }
     ///   "#;
-    ///   let result = client.send_notification_to_signer(request_body).await.unwrap();
+    ///   let result = client.request_signing_by_email(request_body).await.unwrap();
     /// };
     /// ```
-    pub async fn send_notification_to_signer(
+    pub async fn request_signing_by_email(
         &self,
         request_body: &str,
     ) -> Result<(), Box<dyn std::error::Error>> {
