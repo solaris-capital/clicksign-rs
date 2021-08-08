@@ -11,6 +11,10 @@ Unofficial Rust Library for the [Clicksign API](https://developers.clicksign.com
 All person names and document numbers in the examples of this repository are
 fake. Any resemblance to real people is purely coincidental.
 
+**Work in progress...**
+This crate isn't production-ready yet. A lot of changes can bring to it before
+becoming stable. (Your PR is welcome)
+
 ---
 # Features
 ### Documents
