@@ -124,7 +124,7 @@ impl Client {
     ///
     ///  let document = client.create_document_by_model("template_id", template_body)
     ///      .await
-    ///       .unwrap();
+    ///      .unwrap();
     ///  };
     /// ```
     pub async fn create_document_by_model(
@@ -156,7 +156,9 @@ impl Client {
     /// # Example
     /// ```
     /// async {
+    ///   use std::collections::HashMap;
     ///   use clicksign::client::Client;
+    ///   use clicksign::models::signers::Signer;
     ///
     ///   let client = Client::new(
     ///      "some_access_token",
@@ -181,19 +183,20 @@ impl Client {
     ///          }
     ///      }
     ///   "#;
-    ///   let signer = client.create_signer(signer_body).await.unwrap();
+    ///   let value: HashMap<String, Signer> = serde_json::from_str(signer_body).unwrap();
+    ///   let signer = client.create_signer(value).await.unwrap();
     /// };
     /// ```
     pub async fn create_signer(
         &self,
-        request_body: &str,
+        request_body: HashMap<String, Signer>,
     ) -> Result<HashMap<String, Signer>, Box<dyn std::error::Error>> {
-        let value: HashMap<String, Signer> = serde_json::from_str(request_body)?;
+        // let value: HashMap<String, Signer> = serde_json::from_str(request_body)?;
         let url = self.build_url("signers");
         let resp = self
             .client
             .post(url)
-            .json(&value)
+            .json(&request_body)
             .header("Content-Type", "application/json")
             .send()
             .await?;
