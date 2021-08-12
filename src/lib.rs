@@ -57,6 +57,8 @@
 //! ```no_run
 //! async {
 //!  use clicksign::client::Client;
+//!  use std::collections::HashMap;
+//!  use clicksign::models::documents::Document;
 //!
 //!  let client = Client::new(
 //!     "some_access_token",
@@ -78,9 +80,8 @@
 //!     }
 //!  "#;
 //!
-//!  let document = client.create_document_by_model("template_id", template_body)
-//!      .await
-//!      .unwrap();
+//!  let value: HashMap<String, Document> = serde_json::from_str(template_body).unwrap();
+//!  let document = client.create_document_by_model(value).await.unwrap();
 //! };
 //! ```
 //! # License
