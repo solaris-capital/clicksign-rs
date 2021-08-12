@@ -70,7 +70,7 @@ pub struct Document {
     /// Document template data
     pub template: DocumentTemplate,
     /// List of signers in the document
-    pub signers: Vec<String>,
+    pub signers: Option<Vec<String>>,
     /// Lists of events that occurred in the document
-    pub events: Vec<DocumentEvent>
+    pub events: Option<Vec<DocumentEvent>>
 }

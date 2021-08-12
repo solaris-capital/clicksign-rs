@@ -1,12 +1,12 @@
 [package]
 name = "clicksign"
-version = "0.2.5"
+version = "0.2.6"
 authors = ["SOLARIS GESTÃO DE RECURSOS <solcap.com.br>"]
 edition = "2018"
 homepage = "https://github.com/solaris-capital/clicksign-rs"
 license-file = "LICENSE.md"
 description = "Unofficial Rust library for the Clicksign API"
-documentation = "https://docs.rs/clicksign/0.2.5/clicksign/"
+documentation = "https://docs.rs/clicksign/0.2.6/clicksign/"
 repository = "https://github.com/solaris-capital/clicksign-rs"
 categories = ["web-programming::http-client"]
 
