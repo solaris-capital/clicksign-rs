@@ -1,8 +1,8 @@
 use crate::models::signers::{Signer, SignerToDocument};
+use crate::models::documents::Document;
 use error_chain::bail;
 use reqwest::Response;
 use reqwest::StatusCode;
-use serde_json::Value;
 use std::collections::HashMap;
 
 /// This struct defines a clicksign Client
@@ -90,7 +90,7 @@ impl Client {
         }
     }
 
-    /// Create a new document, based on model
+    /// Create a new document, based on template
     /// Reference: <https://developers.clicksign.com/docs/criar-documento-via-modelos>
     ///
     /// # Arguments
@@ -101,6 +101,8 @@ impl Client {
     /// ```no_run
     /// async {
     ///   use clicksign::client::Client;
+    ///   use std::collections::HashMap;
+    ///   use clicksign::models::documents::Document;
     ///
     ///   let client = Client::new(
     ///      "some_access_token",
@@ -121,28 +123,30 @@ impl Client {
     ///        }
     ///      }
     ///  "#;
-    ///
-    ///  let document = client.create_document_by_model("template_id", template_body)
+    ///  let value: HashMap<String, Document> = serde_json::from_str(template_body).unwrap();
+    ///  let document = client.create_document_by_model(value)
     ///      .await
     ///      .unwrap();
     ///  };
     /// ```
     pub async fn create_document_by_model(
         &self,
-        template_id: &str,
-        template_body: &str,
-    ) -> Result<Value, Box<dyn std::error::Error>> {
-        let value: Value = serde_json::from_str(template_body)?;
-        let url = self.build_url(&format!("templates/{}/documents", template_id));
+        request_body: HashMap<String, Document>
+    ) -> Result<HashMap<String, Document>, Box<dyn std::error::Error>> {
+        let template_id = &request_body.get("document").unwrap().template.key;
+        let url = self.build_url(
+            &format!("templates/{}/documents", template_id)
+        );
         let resp = self
             .client
             .post(url)
-            .json(&value)
+            .json(&request_body)
             .header("Content-Type", "application/json")
             .send()
             .await?;
 
-        let result: Value = serde_json::from_str(&self.handler(resp).await.unwrap())?;
+        let result: HashMap<String, Document> =
+            serde_json::from_str(&self.handler(resp).await.unwrap())?;
 
         Ok(result)
     }
