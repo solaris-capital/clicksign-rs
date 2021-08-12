@@ -8,9 +8,7 @@ license-file = "LICENSE.md"
 description = "Unofficial Rust library for the Clicksign API"
 documentation = "https://docs.rs/clicksign/0.2.4/clicksign/"
 repository = "https://github.com/solaris-capital/clicksign-rs"
-categories = [
-  "Assinatura Eletrônica", "Clicksign", "e-Signature", "Eletronic Signature"
-]
+categories = ["web-programming::http-client"]
 
 
 [dependencies]
