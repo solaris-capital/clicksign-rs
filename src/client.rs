@@ -220,6 +220,8 @@ impl Client {
     /// ```
     /// async {
     ///   use clicksign::client::Client;
+    ///   use std::collections::HashMap;
+    ///   use clicksign::models::signers::SignerToDocument;
     ///
     ///   let client = Client::new(
     ///      "some_access_token",
@@ -231,24 +233,24 @@ impl Client {
     ///          "document_key": "27b02527-a576-46ee-b01c-bb4e694036c4",
     ///          "signer_key": "79301388-9567-4320-90ce-9e6f60e70d28",
     ///          "sign_as": "sign",
-    ///          "group": 1,
     ///          "message": "Por favor, assine o documento para completar o seu cadastro."
     ///        }
     ///      }
     ///   "#;
-    ///   let result = client.add_signer_to_document(request_body).await.unwrap();
+    ///   let value: HashMap<String, SignerToDocument> =
+    ///         serde_json::from_str(request_body).unwrap();
+    ///   let result = client.add_signer_to_document(value).await.unwrap();
     /// };
     /// ```
     pub async fn add_signer_to_document(
         &self,
-        request_body: &str,
+        request_body: HashMap<String, SignerToDocument>,
     ) -> Result<HashMap<String, SignerToDocument>, Box<dyn std::error::Error>> {
-        let value: HashMap<String, SignerToDocument> = serde_json::from_str(request_body)?;
         let url = self.build_url("lists");
         let resp = self
             .client
             .post(url)
-            .json(&value)
+            .json(&request_body)
             .header("Content-Type", "application/json")
             .send()
             .await?;
